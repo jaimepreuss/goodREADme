@@ -5,8 +5,10 @@ const generateMarkdown = require('./utils/generateMarkdown');
 
 const questions = [
     {
-        type: 
-    }
+        type: '',
+        name: 'badge',
+        message: 'What kind of badge would you like to put on this repo?'
+    },
     {
         type: 'input',
         name: 'github',
@@ -41,20 +43,36 @@ const questions = [
     {
         type: 'input',
         name: 'install command',
-        message: 'What command should be run',
+        message: 'What command should be run to install dependencies?',
         //npm i
         default: 'npm i'
     },
+    {
+        type: 'input',
+        name: 'run tests',
+        message: 'What command should be run to do tests?',
+        default: 'npm test'
+    },
+    {
+        type: 'input',
+        name: 'need to know repo',
+        message: 'What should the user know about using this repo?'
+    },
+    {
+        type: 'input',
+        name: 'need to know contribute',
+        message: 'What should the user know to contribute to this repo?'
+    }
 ]
 
-inquirer.prompt([
-    {
-        
-    }
-]).then(answers => {
-
+function writeToFile(filename, data){
+    return fs.writeToFile(path.join(process.cwd(),filename), data);
 }
 
-).catch(error => {
+function init() {
+    inquirer.prompt(questions).then((inquirerRespopnses) => {
+        writeToFile('README.md',generateMarkdown({...inquirerRespopnses}));
+    })
+}
 
-});
+init();
